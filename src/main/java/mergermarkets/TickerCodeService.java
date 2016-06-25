@@ -7,20 +7,27 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Optional;
+
 public class TickerCodeService {
 
-    public String getCompanyName(final String tickerCode) {
+    private final MongoDatabase db;
 
-        MongoClientURI connectionString = new MongoClientURI("mongodb://mm_recruitment_user_readonly:rebelMutualWhistle@ds037551.mongolab.com:37551/mm-recruitment");
-        MongoClient mongoClient = new MongoClient(connectionString);
+    public TickerCodeService(final String connectionString) {
+        MongoClientURI mongoClientURI = new MongoClientURI(connectionString);
+        MongoClient mongoClient = new MongoClient(mongoClientURI);
+        db = mongoClient.getDatabase(mongoClientURI.getDatabase());
+    }
 
-        MongoDatabase database = mongoClient.getDatabase("mm-recruitment");
-        MongoCollection<Document> companyCollection = database.getCollection("company");
-
+    public Optional<String> getCompanyName(final String tickerCode) {
+        MongoCollection<Document> companyCollection = db.getCollection("company");
         BasicDBObject query = new BasicDBObject("tickerCode", tickerCode);
-
         Document document = companyCollection.find(query).first();
 
-        return document.getString("name");
+        if (document != null) {
+            return Optional.of(document.getString("name"));
+        }
+
+        return Optional.empty();
     }
 }
