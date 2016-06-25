@@ -20,4 +20,10 @@ public class Company {
         return companyName;
     }
 
+//    - Company name
+//    - Stock ticker code
+//    - Stock price
+//    - The two most recent news stories
+//    - The sentiment (positive, negative or neutral) of each news story
+
 }
