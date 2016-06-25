@@ -2,11 +2,9 @@ package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableList;
+import mergermarkets.TickerCodeService;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +14,31 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompaniesResource {
 
+    private TickerCodeService tickerCodeService;
+
+    public CompaniesResource(TickerCodeService tickerCodeService) {
+
+        this.tickerCodeService = tickerCodeService;
+    }
+
     @GET
     @Timed
     public List<Company> getAllCompanyInformation() {
         return ImmutableList.of(new Company("GOOG"));
     }
+
+    @GET
+    @Path("/{tickerCode}")
+    public Company getCompany(@PathParam("tickerCode") final String tickerCode) {
+        Optional<String> companyName = tickerCodeService.getCompanyName(tickerCode);
+
+        if (companyName.isPresent()) {
+            return new Company(companyName.get());
+        }
+
+        throw new NotFoundException();
+    }
+
 }
 
 

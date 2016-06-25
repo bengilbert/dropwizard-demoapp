@@ -10,9 +10,17 @@ public class AppConfig extends Configuration {
     @NotEmpty
     private String stockPriceUrl;
 
+    @NotEmpty
+    private String tickerCodeMongoDb;
+
     @JsonProperty
     public String getStockPriceUrl() {
         return stockPriceUrl;
+    }
+
+    @JsonProperty
+    public String getTickerCodeMongoDb() {
+        return tickerCodeMongoDb;
     }
 
 }
