@@ -1,4 +1,4 @@
-package mergermarkets;
+package mergermarkets.service;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;

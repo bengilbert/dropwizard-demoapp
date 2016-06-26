@@ -2,7 +2,7 @@ package mergermarkets.dropwizard;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
-import mergermarkets.TickerCodeService;
+import mergermarkets.service.TickerCodeService;
 import mergermarkets.resource.CompaniesResource;
 
 public class App extends Application<AppConfig> {
