@@ -2,10 +2,10 @@ package mergermarkets.dropwizard;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
+import mergermarkets.resource.CompaniesResource;
 import mergermarkets.service.NewsService;
 import mergermarkets.service.StockPriceService;
 import mergermarkets.service.TickerCodeService;
-import mergermarkets.resource.CompaniesResource;
 
 public class App extends Application<AppConfig> {
     public void run(AppConfig appConfig, Environment environment) throws Exception {

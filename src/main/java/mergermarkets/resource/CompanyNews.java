@@ -3,7 +3,6 @@ package mergermarkets.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class CompanyNews {
