@@ -2,6 +2,8 @@ package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableList;
+import mergermarkets.service.StockPrice;
+import mergermarkets.service.StockPriceService;
 import mergermarkets.service.TickerCode;
 import mergermarkets.service.TickerCodeService;
 
@@ -16,10 +18,11 @@ import java.util.Optional;
 public class CompaniesResource {
 
     private TickerCodeService tickerCodeService;
+    private StockPriceService stockPriceService;
 
-    public CompaniesResource(TickerCodeService tickerCodeService) {
-
+    public CompaniesResource(final TickerCodeService tickerCodeService, final StockPriceService stockPriceService) {
         this.tickerCodeService = tickerCodeService;
+        this.stockPriceService = stockPriceService;
     }
 
     @GET
@@ -31,10 +34,18 @@ public class CompaniesResource {
     @GET
     @Path("/{tickerCode}")
     public Company getCompany(@PathParam("tickerCode") final String tickerCode) {
-        Optional<String> companyName = tickerCodeService.getCompanyName(new TickerCode(tickerCode));
+        TickerCode tickerCode1 = new TickerCode(tickerCode);
+        Optional<String> companyName = tickerCodeService.getCompanyName(tickerCode1);
 
         if (companyName.isPresent()) {
-            return new Company(companyName.get());
+            Company company = new Company(companyName.get());
+            Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode(tickerCode1);
+
+            if (stockPrice.isPresent()) {
+                company.setStockPrice(stockPrice.get());
+            }
+
+            return company;
         }
 
         throw new NotFoundException();

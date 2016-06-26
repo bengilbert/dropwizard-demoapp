@@ -11,7 +11,7 @@ public class StockPriceServiceTest {
     @Test
     public void shouldBeAbleToRetriveStockPriceForKnownTickerCode() {
 
-        StockPriceService stockPriceService = new StockPriceService();
+        StockPriceService stockPriceService = new StockPriceService("http://mm-recruitment-stock-price-api.herokuapp.com/company/");
         Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode(new TickerCode("GOOG"));
 
         assertThat(stockPrice.isPresent(), is(true));
