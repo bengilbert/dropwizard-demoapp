@@ -40,14 +40,14 @@ public class TickerCodeServiceTest {
     @Test
     public void canGetCompanyDetailsForTickerCode() {
         db.getCollection("company").insertOne(new Document(ImmutableMap.of("name", "Google Inc", "tickerCode", "GOOG")));
-        Optional<String> companyName = tickerCodeService.getCompanyName("GOOG");
+        Optional<String> companyName = tickerCodeService.getCompanyName(new TickerCode("GOOG"));
 
         assertThat(companyName.get(), is("Google Inc"));
     }
 
     @Test
     public void emptyCompanyNameReturnedForUnknownTickerCode() {
-        Optional<String> companyName = tickerCodeService.getCompanyName("unknown");
+        Optional<String> companyName = tickerCodeService.getCompanyName(new TickerCode("unknown"));
 
         assertThat(companyName.isPresent(), is(false));
     }

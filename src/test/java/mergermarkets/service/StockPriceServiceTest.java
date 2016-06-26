@@ -12,7 +12,7 @@ public class StockPriceServiceTest {
     public void shouldBeAbleToRetriveStockPriceForKnownTickerCode() {
 
         StockPriceService stockPriceService = new StockPriceService();
-        Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode("GOOG");
+        Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode(new TickerCode("GOOG"));
 
         assertThat(stockPrice.isPresent(), is(true));
     }

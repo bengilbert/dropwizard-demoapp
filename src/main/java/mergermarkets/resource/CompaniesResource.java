@@ -2,6 +2,7 @@ package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableList;
+import mergermarkets.service.TickerCode;
 import mergermarkets.service.TickerCodeService;
 
 import javax.ws.rs.*;
@@ -30,7 +31,7 @@ public class CompaniesResource {
     @GET
     @Path("/{tickerCode}")
     public Company getCompany(@PathParam("tickerCode") final String tickerCode) {
-        Optional<String> companyName = tickerCodeService.getCompanyName(tickerCode);
+        Optional<String> companyName = tickerCodeService.getCompanyName(new TickerCode(tickerCode));
 
         if (companyName.isPresent()) {
             return new Company(companyName.get());

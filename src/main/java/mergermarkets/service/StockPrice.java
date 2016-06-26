@@ -6,11 +6,11 @@ public class StockPrice {
 
 
 
-    final private String tickerCode;
+    final private TickerCode tickerCode;
     final private long latestPrice;
     final private String priceUnits;
 
-    public StockPrice(final String tickerCode, final long latestPrice, final String priceUnits) {
+    public StockPrice(final TickerCode tickerCode, final long latestPrice, final String priceUnits) {
         this.tickerCode = tickerCode;
         this.latestPrice = latestPrice;
         this.priceUnits = priceUnits;
@@ -24,7 +24,7 @@ public class StockPrice {
         return priceUnits;
     }
 
-    public String getTickerCode() {
+    public TickerCode getTickerCode() {
         return tickerCode;
     }
 

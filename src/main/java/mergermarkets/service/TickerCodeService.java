@@ -19,9 +19,9 @@ public class TickerCodeService {
         db = mongoClient.getDatabase(mongoClientURI.getDatabase());
     }
 
-    public Optional<String> getCompanyName(final String tickerCode) {
+    public Optional<String> getCompanyName(final TickerCode tickerCode) {
         MongoCollection<Document> companyCollection = db.getCollection("company");
-        BasicDBObject query = new BasicDBObject("tickerCode", tickerCode);
+        BasicDBObject query = new BasicDBObject("tickerCode", tickerCode.getCode());
         Document document = companyCollection.find(query).first();
 
         if (document != null) {
