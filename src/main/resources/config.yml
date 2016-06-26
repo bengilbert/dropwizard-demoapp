@@ -1,3 +1,10 @@
 ---
 stockPriceUrl: http://mm-recruitment-stock-price-api.herokuapp.com/company
 tickerCodeMongoDb: mongodb://mm_recruitment_user_readonly:rebelMutualWhistle@ds037551.mongolab.com:37551/mm-recruitment
+
+logging:
+  level: WARN
+  loggers:
+    mergermarkets: DEBUG
+  appenders:
+    - type: console

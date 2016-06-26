@@ -1,34 +1,23 @@
 package mergermarkets.service;
 
 
+import lombok.Value;
 
+import java.net.URI;
+
+@Value
 public class StockPrice {
-
-
-
     final private TickerCode tickerCode;
     final private long latestPrice;
     final private String priceUnits;
+    final private URI storyFeedUrl;
 
-    public StockPrice(final TickerCode tickerCode, final long latestPrice, final String priceUnits) {
+    public StockPrice(final TickerCode tickerCode, final long latestPrice, final String priceUnits, final URI storyFeedUrl) {
         this.tickerCode = tickerCode;
         this.latestPrice = latestPrice;
         this.priceUnits = priceUnits;
+        this.storyFeedUrl = storyFeedUrl;
     }
-
-    public long getLatestPrice() {
-        return this.latestPrice;
-    }
-
-    public String getPriceUnits() {
-        return priceUnits;
-    }
-
-    public TickerCode getTickerCode() {
-        return tickerCode;
-    }
-
-
 }
 
 //"tickerCode": "GOOG",

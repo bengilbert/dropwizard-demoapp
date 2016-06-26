@@ -98,4 +98,28 @@ public class CompaniesResourceIntegrationTest {
         assertThat(response.getBody().getObject().get("stockPrice"), is(-1));
     }
 
+    @Test
+    public void companyResponseContainsNewsStories() throws UnirestException {
+        final String googResponse = "{\"tickerCode\":\"GOOG\"," +
+                "\"latestPrice\":54407," +
+                "\"priceUnits\":\"GBP:pence\"," +
+                "\"asOf\":\"2016-06-26T09:33:11.481Z\"," +
+                String.format("\"storyFeedUrl\":\"http://localhost:%s/8271\"}", wireMockRule.port());
+        wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withBody(googResponse).withHeader("Content-Type", "application/json")));
+
+        final String newsResponse = "[{\"id\":74," +
+                "\"headline\":\"Google going strong, but maybe not for long.\"," +
+                "\"body\":\"Google has some concerns to address the balance of this year, and beyond.\"" +
+                "},{" +
+                "\"id\":141," +
+                "\"headline\":\"Ad revenues still primary source of Google revenue.\"," +
+                "\"body\":\"Investors were encouraged by a healthy gain in the number of people looking" +
+                "\"}]";
+        wireMockRule.stubFor(get(urlEqualTo("/8271")).willReturn(aResponse().withBody(newsResponse).withHeader("Content-Type", "application/json")));
+
+        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/GOOG").asJson();
+
+        assertThat(response.getBody().getObject().getJSONArray("newsStories").length(), is(2));
+    }
+
 }

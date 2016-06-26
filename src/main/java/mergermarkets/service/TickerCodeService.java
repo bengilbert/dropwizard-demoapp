@@ -5,10 +5,12 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 
 import java.util.Optional;
 
+@Slf4j
 public class TickerCodeService {
 
     private final MongoDatabase db;
@@ -20,6 +22,8 @@ public class TickerCodeService {
     }
 
     public Optional<String> getCompanyName(final TickerCode tickerCode) {
+        log.debug("Requesting company name for {}", tickerCode);
+
         MongoCollection<Document> companyCollection = db.getCollection("company");
         BasicDBObject query = new BasicDBObject("tickerCode", tickerCode.getCode());
         Document document = companyCollection.find(query).first();

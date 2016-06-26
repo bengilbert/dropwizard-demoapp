@@ -1,6 +1,9 @@
 package mergermarkets.service;
 
 
+import lombok.ToString;
+
+@ToString
 public class TickerCode {
     private String code;
 

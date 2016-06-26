@@ -2,6 +2,7 @@ package mergermarkets.dropwizard;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
+import mergermarkets.service.NewsService;
 import mergermarkets.service.StockPriceService;
 import mergermarkets.service.TickerCodeService;
 import mergermarkets.resource.CompaniesResource;
@@ -11,7 +12,8 @@ public class App extends Application<AppConfig> {
 
         final TickerCodeService tickerCodeService = new TickerCodeService(appConfig.getTickerCodeMongoDb());
         final StockPriceService stockPriceService = new StockPriceService((appConfig.getStockPriceUrl()));
-        final CompaniesResource companiesResource = new CompaniesResource(tickerCodeService, stockPriceService);
+        final NewsService newsService = new NewsService();
+        final CompaniesResource companiesResource = new CompaniesResource(tickerCodeService, stockPriceService, newsService);
         final AppHealthCheck healthCheck = new AppHealthCheck();
 
         environment.healthChecks().register("healthcheck", healthCheck);

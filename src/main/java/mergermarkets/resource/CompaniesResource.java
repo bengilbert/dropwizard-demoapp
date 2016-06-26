@@ -2,10 +2,7 @@ package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableList;
-import mergermarkets.service.StockPrice;
-import mergermarkets.service.StockPriceService;
-import mergermarkets.service.TickerCode;
-import mergermarkets.service.TickerCodeService;
+import mergermarkets.service.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,10 +16,12 @@ public class CompaniesResource {
 
     private TickerCodeService tickerCodeService;
     private StockPriceService stockPriceService;
+    private NewsService newsService;
 
-    public CompaniesResource(final TickerCodeService tickerCodeService, final StockPriceService stockPriceService) {
+    public CompaniesResource(final TickerCodeService tickerCodeService, final StockPriceService stockPriceService, final NewsService newsService) {
         this.tickerCodeService = tickerCodeService;
         this.stockPriceService = stockPriceService;
+        this.newsService = newsService;
     }
 
     @GET
@@ -43,6 +42,9 @@ public class CompaniesResource {
 
             if (stockPrice.isPresent()) {
                 company.setStockPrice(stockPrice.get());
+
+                List<NewsStory> newsStories = newsService.getNewsStories(stockPrice.get().getStoryFeedUrl());
+                company.setNewsStories(newsStories);
             }
 
             return company;

@@ -6,6 +6,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 @Slf4j
@@ -17,6 +19,7 @@ public class StockPriceService {
     }
 
     public Optional<StockPrice> getStockPriceForTickerCode(final TickerCode tickerCode) {
+        log.debug("Requesting stock price for {}", tickerCode);
         final HttpResponse<JsonNode> response;
         try {
             response = Unirest.get(stockPriceUrl + "/" + tickerCode.getCode()).asJson();
@@ -24,9 +27,10 @@ public class StockPriceService {
             if (response.getStatus() == 200) {
                 final int latestPrice = response.getBody().getObject().getInt("latestPrice");
                 final String units = response.getBody().getObject().getString("priceUnits");
-                return Optional.of(new StockPrice(tickerCode, latestPrice, units));
+                final URI newsStoryLink = new URI(response.getBody().getObject().getString("storyFeedUrl"));
+                return Optional.of(new StockPrice(tickerCode, latestPrice, units, newsStoryLink));
             }
-        } catch (UnirestException e) {
+        } catch (UnirestException | URISyntaxException e) {
             log.warn("Unable to determine stock price for {}", tickerCode, e);
         }
 
