@@ -1,4 +1,4 @@
-package mergermarkets.service;
+package mergermarkets.service.news;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.exceptions.UnirestException;

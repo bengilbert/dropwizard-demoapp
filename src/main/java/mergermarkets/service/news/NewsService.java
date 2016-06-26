@@ -1,4 +1,4 @@
-package mergermarkets.service;
+package mergermarkets.service.news;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;

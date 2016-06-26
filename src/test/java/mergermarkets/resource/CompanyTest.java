@@ -1,7 +1,7 @@
 package mergermarkets.resource;
 
 import com.google.common.collect.ImmutableList;
-import mergermarkets.service.NewsStory;
+import mergermarkets.service.news.NewsStory;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

@@ -1,4 +1,4 @@
-package mergermarkets.service;
+package mergermarkets.service.tickercode;
 
 import com.google.common.collect.ImmutableMap;
 import com.mongodb.MongoClient;

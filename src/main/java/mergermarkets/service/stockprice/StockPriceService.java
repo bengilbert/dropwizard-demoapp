@@ -1,10 +1,11 @@
-package mergermarkets.service;
+package mergermarkets.service.stockprice;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
+import mergermarkets.service.tickercode.TickerCode;
 
 import java.net.URI;
 import java.net.URISyntaxException;

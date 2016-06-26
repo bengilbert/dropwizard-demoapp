@@ -1,4 +1,4 @@
-package mergermarkets.service;
+package mergermarkets.service.news;
 
 
 import lombok.AllArgsConstructor;

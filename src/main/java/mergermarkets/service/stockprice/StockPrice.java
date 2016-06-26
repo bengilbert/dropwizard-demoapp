@@ -1,7 +1,8 @@
-package mergermarkets.service;
+package mergermarkets.service.stockprice;
 
 
 import lombok.Value;
+import mergermarkets.service.tickercode.TickerCode;
 
 import java.net.URI;
 

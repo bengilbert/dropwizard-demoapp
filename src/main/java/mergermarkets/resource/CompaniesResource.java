@@ -2,7 +2,12 @@ package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableList;
-import mergermarkets.service.*;
+import mergermarkets.service.news.NewsService;
+import mergermarkets.service.news.NewsStory;
+import mergermarkets.service.stockprice.StockPrice;
+import mergermarkets.service.stockprice.StockPriceService;
+import mergermarkets.service.tickercode.TickerCode;
+import mergermarkets.service.tickercode.TickerCodeService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

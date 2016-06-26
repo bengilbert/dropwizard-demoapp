@@ -1,6 +1,7 @@
-package mergermarkets.service;
+package mergermarkets.service.stockprice;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import mergermarkets.service.tickercode.TickerCode;
 import org.junit.Rule;
 import org.junit.Test;
 

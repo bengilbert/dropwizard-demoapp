@@ -1,8 +1,8 @@
 package mergermarkets.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mergermarkets.service.NewsStory;
-import mergermarkets.service.StockPrice;
+import mergermarkets.service.news.NewsStory;
+import mergermarkets.service.stockprice.StockPrice;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 
@@ -30,6 +30,7 @@ public class Company {
     }
 
     public void setNewsStories(final List<NewsStory> newsStories) {
+        // TODO limit to a maximum to two news stories
         this.newsStories = newsStories;
     }
 

@@ -1,4 +1,4 @@
-package mergermarkets.service;
+package mergermarkets.service.tickercode;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
