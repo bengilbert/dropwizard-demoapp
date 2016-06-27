@@ -61,7 +61,7 @@ public class CompaniesResourceIntegrationTest {
     @Test
     public void allCompaniesCanBeRequested() throws UnirestException {
 
-        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies").asJson();
+        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies").asJson();
 
         assertThat(response.getStatus(), is(200));
         assertThat(response.getBody().getArray().length(), greaterThan(0));
@@ -69,14 +69,14 @@ public class CompaniesResourceIntegrationTest {
 
     @Test
     public void companyNameMatchesTickerCode() throws UnirestException {
-        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/GOOG").asJson();
+        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
         assertThat(response.getBody().getObject().get("companyName"), is("Google Inc"));
     }
 
     @Test
     public void requestingAnUnknownTickerCodeReturns404() throws UnirestException {
-        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/unknown").asJson();
+        HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/unknown").asJson();
 
         assertThat(response.getStatus(), is(404));
     }
@@ -85,7 +85,7 @@ public class CompaniesResourceIntegrationTest {
     public void companyResponseContainsStockPrice() throws UnirestException {
         final String googResponse = "{\"tickerCode\":\"GOOG\",\"latestPrice\":54407,\"priceUnits\":\"GBP:pence\",\"asOf\":\"2016-06-26T09:33:11.481Z\",\"storyFeedUrl\":\"http://mm-recruitment-story-feed-api.herokuapp.com/8271\"}";
         wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withBody(googResponse).withHeader("Content-Type", "application/json")));
-        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/GOOG").asJson();
+        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
         assertThat(response.getBody().getObject().get("stockPrice"), is(54407));
     }
@@ -93,7 +93,7 @@ public class CompaniesResourceIntegrationTest {
     @Test
     public void companyResponseContainsInvalidStockPriceWhenStockPriceCannotBeRetrieved() throws UnirestException {
         wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withStatus(404)));
-        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/GOOG").asJson();
+        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
         assertThat(response.getBody().getObject().get("stockPrice"), is(-1));
     }
@@ -117,7 +117,7 @@ public class CompaniesResourceIntegrationTest {
                 "\"}]";
         wireMockRule.stubFor(get(urlEqualTo("/8271")).willReturn(aResponse().withBody(newsResponse).withHeader("Content-Type", "application/json")));
 
-        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/companies/GOOG").asJson();
+        final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
         assertThat(response.getBody().getObject().getJSONArray("newsStories").length(), is(2));
     }

@@ -1,7 +1,7 @@
 package mergermarkets.dropwizard;
 
 import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import mergermarkets.resource.CompaniesResource;
@@ -15,7 +15,7 @@ public class App extends Application<AppConfig> {
     @Override
     public void initialize(Bootstrap<AppConfig> bootstrap) {
         super.initialize(bootstrap);
-        bootstrap.addBundle(new AssetsBundle("/webapp", "/ui", "index.html"));
+        bootstrap.addBundle(new ConfiguredAssetsBundle());
     }
 
     public void run(AppConfig appConfig, Environment environment) throws Exception {

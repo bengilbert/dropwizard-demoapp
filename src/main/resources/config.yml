@@ -8,3 +8,11 @@ logging:
     mergermarkets: DEBUG
   appenders:
     - type: console
+
+assets:
+  mappings:
+    /app: /app
+  overrides:
+    /app: src/main/resources/webapp/app/
+    /app/bower_components: src/main/resources/webapp/bower_components/
+    /app/node_modules: src/main/resources/webapp/node_modules/

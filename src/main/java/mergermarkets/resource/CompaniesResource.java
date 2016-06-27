@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Path("/companies")
+@Path("/api/companies")
 @Produces(MediaType.APPLICATION_JSON)
 public class CompaniesResource {
 

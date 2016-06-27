@@ -55,7 +55,7 @@ public class CompaniesResourceTest {
     @Test
     public void newsStoriesShouldHaveSentiment() {
         when(mockNewsService.getNewsStories(any())).thenReturn(ImmutableList.of(new NewsStory("headline", "body", Sentiment.POSITIVE)));
-        final Company company = resources.client().target("/companies/GOOG").request().get(Company.class);
+        final Company company = resources.client().target("/api/companies/GOOG").request().get(Company.class);
         assertThat(company.newsStories().isEmpty(), is(false));
         assertThat(company.newsStories().get(0).getSentiment(), is("POSITIVE"));
     }
