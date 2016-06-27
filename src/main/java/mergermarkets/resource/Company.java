@@ -1,21 +1,14 @@
 package mergermarkets.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mergermarkets.service.news.NewsStory;
-import mergermarkets.service.stockprice.StockPrice;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 
 public class Company {
     private String companyName;
-    private Optional<StockPrice> stockPrice = Optional.empty();
-    private List<NewsStory> newsStories = Collections.emptyList();
+    private long stockPrice = -1;
+    private List<CompanyNews> newsStories = Collections.emptyList();
 
     public Company() {
         // required for jackson
@@ -25,11 +18,11 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public void setStockPrice(final StockPrice stockPrice) {
-        this.stockPrice = Optional.of(stockPrice);
+    public void setStockPrice(final long stockPrice) {
+        this.stockPrice = stockPrice;
     }
 
-    public void setNewsStories(final List<NewsStory> newsStories) {
+    public void setNewsStories(final List<CompanyNews> newsStories) {
         // TODO limit to a maximum to two news stories
         this.newsStories = newsStories;
     }
@@ -41,18 +34,12 @@ public class Company {
 
     @JsonProperty
     public long stockPrice() {
-        if (stockPrice.isPresent()) {
-            return stockPrice.get().getLatestPrice();
-        }
-
-        return -1;
+        return stockPrice;
     }
 
     @JsonProperty
     public List<CompanyNews> newsStories() {
-        ModelMapper modelMapper = new ModelMapper();
-        Type targetListType = new TypeToken<List<CompanyNews>>() {}.getType();
-        return modelMapper.map(newsStories, targetListType);
+        return newsStories;
     }
 
 //    - Company name

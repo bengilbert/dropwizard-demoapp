@@ -5,6 +5,8 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
+import mergermarkets.service.sentiment.Sentiment;
+import mergermarkets.service.sentiment.SentimentService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +16,12 @@ import java.util.List;
 
 @Slf4j
 public class NewsService {
+
+    private SentimentService sentimentService;
+
+    public NewsService(final SentimentService sentimentService) {
+        this.sentimentService = sentimentService;
+    }
 
     public List<NewsStory> getNewsStories(final URI newsUrl) {
         log.debug("Retriving news stores from {}", newsUrl);
@@ -26,8 +34,9 @@ public class NewsService {
                     final JSONObject jsonStory = newsStoriesArray.getJSONObject(i);
                     final String headline = jsonStory.getString("headline");
                     final String body = jsonStory.getString("body");
+                    final Sentiment sentiment = sentimentService.getSentiment(body);
 
-                    newsStories.add(new NewsStory(headline, body));
+                    newsStories.add(new NewsStory(headline, body, sentiment));
                 }
             }
         } catch (UnirestException e) {
