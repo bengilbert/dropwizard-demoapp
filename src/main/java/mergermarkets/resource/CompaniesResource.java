@@ -1,7 +1,6 @@
 package mergermarkets.resource;
 
 import com.codahale.metrics.annotation.Timed;
-import com.google.common.collect.ImmutableList;
 import mergermarkets.service.news.NewsService;
 import mergermarkets.service.news.NewsStory;
 import mergermarkets.service.stockprice.StockPrice;
@@ -16,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Path("/api/companies")
@@ -27,7 +27,8 @@ public class CompaniesResource {
     private NewsService newsService;
     private ModelMapper modelMapper;
 
-    private static Type targetListType = new TypeToken<List<CompanyNews>>() {}.getType();
+    private static Type targetListType = new TypeToken<List<CompanyNews>>() {
+    }.getType();
 
     public CompaniesResource(final TickerCodeService tickerCodeService, final StockPriceService stockPriceService, final NewsService newsService) {
         this.tickerCodeService = tickerCodeService;
@@ -39,10 +40,12 @@ public class CompaniesResource {
     @GET
     @Timed
     public List<CompanySummary> getTickerCodes() {
-        return ImmutableList.of(new CompanySummary("GOOG"), new CompanySummary("MSFT"));
+        List<String> tickerCodes = tickerCodeService.getAllTickerCodes();
+        return tickerCodes.stream().map(tickerCode -> new CompanySummary(tickerCode)).collect(Collectors.toList());
     }
 
     @GET
+    @Timed
     @Path("/{tickerCode}")
     public Company getCompany(@PathParam("tickerCode") final String tickerCode) {
         TickerCode tickerCode1 = new TickerCode(tickerCode);

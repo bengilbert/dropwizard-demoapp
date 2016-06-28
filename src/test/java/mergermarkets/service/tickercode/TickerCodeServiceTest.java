@@ -4,13 +4,16 @@ import com.google.common.collect.ImmutableMap;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.testcontainers.containers.GenericContainer;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -37,6 +40,11 @@ public class TickerCodeServiceTest {
         tickerCodeService = new TickerCodeService(mongoUrl);
     }
 
+    @After
+    public void cleanup() {
+        db.drop();
+    }
+
     @Test
     public void canGetCompanyDetailsForTickerCode() {
         db.getCollection("company").insertOne(new Document(ImmutableMap.of("name", "Google Inc", "tickerCode", "GOOG")));
@@ -50,6 +58,19 @@ public class TickerCodeServiceTest {
         Optional<String> companyName = tickerCodeService.getCompanyName(new TickerCode("unknown"));
 
         assertThat(companyName.isPresent(), is(false));
+    }
+
+    @Test
+    public void allTickerCodesCanBeRequested() {
+        db.getCollection("company").insertOne(new Document(ImmutableMap.of("name", "Google Inc", "tickerCode", "GOOG")));
+        db.getCollection("company").insertOne(new Document(ImmutableMap.of("name", "Microsoft", "tickerCode", "MSFT")));
+        db.getCollection("company").insertOne(new Document(ImmutableMap.of("name", "Sky", "tickerCode", "SKY")));
+
+        List<String> tickerCodes = tickerCodeService.getAllTickerCodes();
+
+        assertThat(tickerCodes.size(), is(3));
+        assertThat(tickerCodes, containsInAnyOrder("GOOG", "MSFT", "SKY"));
+
     }
 
 }
