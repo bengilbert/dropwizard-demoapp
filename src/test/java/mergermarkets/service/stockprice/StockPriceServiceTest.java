@@ -31,8 +31,25 @@ public class StockPriceServiceTest {
 
         assertThat(stockPrice.isPresent(), is(true));
         assertThat(stockPrice.get().getLatestPrice(), is(54407L));
-        assertThat(stockPrice.get().getPriceUnits(), is("GBP:pence"));
-        assertThat(stockPrice.get().getStoryFeedUrl(), is(new URI("http://mm-recruitment-story-feed-api.herokuapp.com/8271")));
+        assertThat(stockPrice.get().getPriceUnits(), is("pence"));
+        assertThat(stockPrice.get().getStoryFeedUrl(), is(Optional.of(new URI("http://mm-recruitment-story-feed-api.herokuapp.com/8271"))));
+    }
+
+    @Test
+    public void shouldBeAbleToRetriveStockPriceForKnownTickerCodeWhenStoryFeedUrlkMissing() throws URISyntaxException {
+        final String googResponse = "{\"tickerCode\":\"GOOG\"," +
+                "\"latestPrice\":54407," +
+                "\"priceUnits\":\"GBP:pence\"," +
+                "\"asOf\":\"2016-06-26T09:33:11.481Z\"}";
+        wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withBody(googResponse).withHeader("Content-Type", "application/json")));
+
+        StockPriceService stockPriceService = new StockPriceService(String.format("http://localhost:%s/company", wireMockRule.port()));
+        Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode(new TickerCode("GOOG"));
+
+        assertThat(stockPrice.isPresent(), is(true));
+        assertThat(stockPrice.get().getLatestPrice(), is(54407L));
+        assertThat(stockPrice.get().getPriceUnits(), is("pence"));
+        assertThat(stockPrice.get().getStoryFeedUrl(), is(Optional.empty()));
     }
 
     @Test

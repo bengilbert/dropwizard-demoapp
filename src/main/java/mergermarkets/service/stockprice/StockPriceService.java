@@ -28,8 +28,13 @@ public class StockPriceService {
             if (response.getStatus() == 200) {
                 final int latestPrice = response.getBody().getObject().getInt("latestPrice");
                 final String units = response.getBody().getObject().getString("priceUnits");
-                final URI newsStoryLink = new URI(response.getBody().getObject().getString("storyFeedUrl"));
-                return Optional.of(new StockPrice(tickerCode, latestPrice, units, newsStoryLink));
+
+                if (response.getBody().getObject().has("storyFeedUrl")) {
+                    final URI newsStoryLink = new URI(response.getBody().getObject().getString("storyFeedUrl"));
+                    return Optional.of(new StockPrice(tickerCode, latestPrice, units, newsStoryLink));
+                }
+
+                return Optional.of(new StockPrice(tickerCode, latestPrice, units));
             }
         } catch (UnirestException | URISyntaxException e) {
             log.warn("Unable to determine stock price for {}", tickerCode, e);

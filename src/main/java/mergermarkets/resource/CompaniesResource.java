@@ -56,10 +56,12 @@ public class CompaniesResource {
             Optional<StockPrice> stockPrice = stockPriceService.getStockPriceForTickerCode(tickerCode1);
 
             if (stockPrice.isPresent()) {
-                company.setStockPrice(stockPrice.get().getLatestPrice());
+                company.setStockPrice(String.format("%s %s", stockPrice.get().getLatestPrice(), stockPrice.get().getPriceUnits()));
 
-                List<NewsStory> newsStories = newsService.getNewsStories(stockPrice.get().getStoryFeedUrl());
-                company.setNewsStories(modelMapper.map(newsStories, targetListType));
+                if (stockPrice.get().getStoryFeedUrl().isPresent()) {
+                    List<NewsStory> newsStories = newsService.getNewsStories(stockPrice.get().getStoryFeedUrl().get());
+                    company.setNewsStories(modelMapper.map(newsStories, targetListType));
+                }
             }
 
             return company;

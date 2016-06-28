@@ -87,15 +87,15 @@ public class CompaniesResourceIntegrationTest {
         wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withBody(googResponse).withHeader("Content-Type", "application/json")));
         final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
-        assertThat(response.getBody().getObject().get("stockPrice"), is(54407));
+        assertThat(response.getBody().getObject().get("stockPrice"), is("54407 pence"));
     }
 
     @Test
-    public void companyResponseContainsInvalidStockPriceWhenStockPriceCannotBeRetrieved() throws UnirestException {
+    public void companyResponseIsMissingStockPriceWhenStockPriceCannotBeRetrieved() throws UnirestException {
         wireMockRule.stubFor(get(urlEqualTo("/company/GOOG")).willReturn(aResponse().withStatus(404)));
         final HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/api/companies/GOOG").asJson();
 
-        assertThat(response.getBody().getObject().get("stockPrice"), is(-1));
+        assertThat(response.getBody().getObject().has("stockPrice"), is(false));
     }
 
     @Test

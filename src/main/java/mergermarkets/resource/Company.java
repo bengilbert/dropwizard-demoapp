@@ -1,13 +1,15 @@
 package mergermarkets.resource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Collections;
 import java.util.List;
 
+@JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
 public class Company {
     private String companyName;
-    private long stockPrice = -1;
+    private String stockPrice;
     private List<CompanyNews> newsStories = Collections.emptyList();
 
     public Company() {
@@ -18,7 +20,7 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public void setStockPrice(final long stockPrice) {
+    public void setStockPrice(final String stockPrice) {
         this.stockPrice = stockPrice;
     }
 
@@ -33,7 +35,7 @@ public class Company {
     }
 
     @JsonProperty
-    public long stockPrice() {
+    public String stockPrice() {
         return stockPrice;
     }
 
