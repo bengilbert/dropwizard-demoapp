@@ -38,8 +38,8 @@ public class CompaniesResource {
 
     @GET
     @Timed
-    public List<Company> getAllCompanyInformation() {
-        return ImmutableList.of(new Company("GOOG"));
+    public List<CompanySummary> getTickerCodes() {
+        return ImmutableList.of(new CompanySummary("GOOG"), new CompanySummary("MSFT"));
     }
 
     @GET
