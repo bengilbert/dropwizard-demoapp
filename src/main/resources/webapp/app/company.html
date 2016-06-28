@@ -1,4 +1,14 @@
 <div>
+    <form name="myForm">
+        <label for="repeatSelect"> Company ticker code: </label>
+        <select name="repeatSelect" id="repeatSelect" ng-model="tickerCodes.tickerCode" ng-change="change()">
+            <option ng-repeat="option in tickerCodes.availableOptions" value="{{option.code}}">{{option.code}}</option>
+        </select>
+    </form>
+    <hr>
+</div>
+
+<div>
     <p>{{company.companyName}}
     <p>{{company.stockPrice}}</p>
 </div>
