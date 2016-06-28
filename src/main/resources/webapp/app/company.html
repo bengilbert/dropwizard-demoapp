@@ -1,6 +1,10 @@
-<ul>
-    <li>
-        <span>company name</span>
-        <p>{{company.companyName}}</p>
-    </li>
-</ul>
+<div>
+    <p>{{company.companyName}}
+    <p>{{company.stockPrice}}</p>
+</div>
+
+<div>
+    <ul ng-repeat="newsStory in company.newsStories">
+        <li>{{newsStory.body}}<span>{{newsStory.sentiment}}</span></li>
+    </ul>
+</div>

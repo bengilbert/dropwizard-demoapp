@@ -8,7 +8,7 @@ angular.module('companyDirective', [])
          restrict: 'E',
          templateUrl: 'company.html',
          link: function postLink($scope, element, attrs) {
-               $http.get('/api/companies/GOOG').then(function(response) {
+               $http.get('/api/companies/MSFT').then(function(response) {
                  $scope.company = response.data;
                });
          }
