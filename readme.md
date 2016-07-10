@@ -6,7 +6,12 @@ This is a demo app written for a coding test.  I've put this on github as it sho
  * Testing an inprocess dropwizard application using WireMock and overriding the dropwizard config to point to the wiremock endpoint
  * Testing dropwizard Resources using ResourceTestRules
 
-You need docker to build this application.  I'm using the beta version of docker for osx (Version 1.12.0-rc2-beta16 (build: 9493)).  If this doesn't work (you will know when) and you are on OSX then try defaulting back to using a docker-machine instead.
+You need docker to *build* this application.  I'm using the beta version of docker for osx.  So far the following versions seem to work okay:
+ 
+ * Version 1.12.0-rc2-beta16 (build: 9493)
+ * Version 1.12.0-rc3-beta18 (build: 9996)
+ 
+ If this doesn't work (you will know when) and you are on OSX then try defaulting back to using a docker-machine instead.
 
 ```
 docker-machine create default  --driver=virtualbox
